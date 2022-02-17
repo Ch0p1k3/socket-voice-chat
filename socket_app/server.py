@@ -5,7 +5,7 @@ from uuid import uuid4
 
 import click
 
-from protocol import Packet, async_read_packet, async_write_packet
+from socket_app.protocol import Packet, async_read_packet, async_write_packet
 
 
 class Server:

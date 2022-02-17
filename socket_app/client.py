@@ -9,7 +9,7 @@ import click
 import pyaudio
 from simple_term_menu import TerminalMenu
 
-from protocol import Packet, read_packet, write_packet
+from socket_app.protocol import Packet, read_packet, write_packet
 
 
 class UserList:

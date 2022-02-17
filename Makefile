@@ -10,5 +10,6 @@ apt_get:
 	apt-get update
 	apt-get install portaudio19-dev python-all-dev python3-all-dev
 
-requirements:
-	python3.9 -m pip install -r requirements.txt
+install:
+	python3.9 -m pip wheel --wheel-dir ./dist .
+	python3.9 -m pip install . --prefer-binary --force-reinstall --find-links ./dist
