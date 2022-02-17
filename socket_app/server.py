@@ -115,11 +115,13 @@ class Server:
         type_: str,
         key: str,
         data: bytes,
+        name: str,
     ) -> None:
         try:
+            print(name, flush=True)
             await async_write_packet(
                 writer,
-                Packet(f"{type_} {self._connections[key][writer]}", data)
+                Packet(f"{type_} {name}", data)
             )
         except Exception:
             await self._close_connection(key, writer)
@@ -130,10 +132,12 @@ class Server:
         writer: asyncio.StreamWriter,
         type_: str,
         key: str,
-        data: bytes
+        data: bytes,
     ) -> None:
         await asyncio.gather(*(
-            self._broadcast_helper(writer_c, type_, key, data)
+            self._broadcast_helper(
+                writer_c, type_, key, data, self._connections[key][writer]
+            )
             for writer_c in self._connections[key]
             if writer_c != writer
         ))

@@ -26,14 +26,9 @@ class UserList:
             if user in self._list:
                 self._list.remove(user)
 
-    def print_(self) -> None:
+    def get(self) -> list[str]:
         with self._lock:
-            if len(self._list) == 0:
-                print("Empty")
-                print()
-                return
-            print("> " + "\n> ".join(self._list))
-            print()
+            return self._list.copy()
 
 
 class Client:
@@ -43,6 +38,7 @@ class Client:
         self._buffer = 1024
         self._username = username
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self._cur_talk = "Nobody"
         try:
             self._socket.connect((self._host, self._port))
         except Exception as ex:
@@ -65,6 +61,7 @@ class Client:
                 "[j] Join to the room",
                 "[e] Exit"
             ], title=menu_title)
+            print()
             answer = terminal_menu.show()
             if answer == 0:
                 try:
@@ -129,6 +126,7 @@ class Client:
             terminal_menu = TerminalMenu([
                 f"[t] {talk_str}",
                 "[u] Users",
+                "[c] Last speaker",
                 "[e] Exit",
             ], title=f"Room key: {self._room_num}")
             answer = terminal_menu.show()
@@ -140,9 +138,28 @@ class Client:
                 self._turn_off_send()
                 talk_str = "Talk"
             elif answer == 1:
-                self._list.print_()
+                lst = self._list.get()
+                if len(lst) == 0:
+                    lst = ["Empty"]
+                users = TerminalMenu(
+                    lst,
+                    title=f"Room key: {self._room_num}. "
+                    "Click enter to cancel."
+                )
+                _ = users.show()
+            elif answer == 2:
+                while True:
+                    users = TerminalMenu(
+                        [self._cur_talk, "[c] Cancel"],
+                        title=f"Room key: {self._room_num}. "
+                        "Click enter on name to refresh.",
+                        show_search_hint=True
+                    )
+                    cl = users.show()
+                    if cl == 1:
+                        break
             else:
-                if answer != 2:
+                if answer != 3:
                     print("Restart client!", flush=True)
                 else:
                     print("Please wait 5 second!", flush=True)
@@ -212,7 +229,6 @@ class Client:
 
     def _receive_server_data(self) -> None:
         assert self._receive_future is not None
-        # who_said = ""
         while not self._receive_future.done():
             try:
                 packet = read_packet(self._socket)
@@ -223,16 +239,13 @@ class Client:
                     self._list.delete(packet.data.decode())
                 elif command.startswith("Audio "):
                     self._playing_stream.write(packet.data)
+                    self._cur_talk = command[len("Audio "):]
                 else:
                     print("Restart client!", flush=True)
                     self._turn_off_send()
                     self._turn_off_receive()
                     self._socket.close()
                     exit(1)
-                # if len(who_said) != 0:
-                #     print("\033[A" + len(who_said) * " " + "\033[A")
-                # who_said = command[len("Audio "):]
-                # print(who_said)
             except Exception:
                 pass
 
