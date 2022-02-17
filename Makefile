@@ -1,13 +1,8 @@
-ifeq (run,$(firstword $(MAKECMDGOALS)))
-  RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
-  $(eval $(RUN_ARGS):;@:)
-endif
-
 server:
-	python3 socket_app/server.py ${RUN_ARGS}
+	python3 socket_app/server.py $(filter-out $@,$(MAKECMDGOALS))
 
 client:
-	python3 socket_app/client.py ${RUN_ARGS}
+	python3 socket_app/client.py $(filter-out $@,$(MAKECMDGOALS))
 
 dependencies: apt_get requirements
 
