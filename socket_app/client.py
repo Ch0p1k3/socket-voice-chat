@@ -23,7 +23,6 @@ class UserList:
 
     def delete(self, user: str) -> None:
         with self._lock:
-            print(user)
             if user in self._list:
                 self._list.remove(user)
 

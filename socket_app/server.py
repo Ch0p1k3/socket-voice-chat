@@ -23,7 +23,7 @@ class Server:
             reader: asyncio.StreamReader,
             writer: asyncio.StreamWriter
         ) -> None:
-            print("New client!", flush=True)
+            print("New connection!", flush=True)
             username: tp.Optional[str] = None
             cur_room: tp.Optional[str] = None
             while True:
@@ -101,7 +101,6 @@ class Server:
                     await self._close_connection(cur_room, writer)
                     return
 
-        # Create TCP socket server
         server = await asyncio.start_server(
             handle_socket, self._host,
             self._port, family=socket.AF_INET,
