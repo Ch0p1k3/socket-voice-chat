@@ -9,7 +9,7 @@ sudo make apt_get
 
 ### Install wheel
 ```bash
-make install
+sudo make install
 ```
 When you install wheel you can use binaries of client and server:
 ```bash

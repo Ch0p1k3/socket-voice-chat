@@ -6,7 +6,7 @@ client:
 
 apt_get:
 	apt-get update
-	apt-get install portaudio19-dev python-all-dev python3-all-dev
+	apt-get install -y portaudio19-dev python-all-dev python3-all-dev
 
 install: apt_get
 	python3.9 -m pip wheel --wheel-dir ./dist .
