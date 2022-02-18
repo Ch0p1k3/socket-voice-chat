@@ -118,7 +118,6 @@ class Server:
         name: str,
     ) -> None:
         try:
-            print(name, flush=True)
             await async_write_packet(
                 writer,
                 Packet(f"{type_} {name}", data)

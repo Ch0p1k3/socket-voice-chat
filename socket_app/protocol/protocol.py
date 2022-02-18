@@ -35,12 +35,6 @@ def recv_exactly(socket: socket.SocketType, size: int) -> bytes:
     return new_data
 
 
-def send_exactly(socket: socket.SocketType, data: bytes) -> None:
-    sent = 0
-    while sent < len(data):
-        sent += socket.send(data[sent:])
-
-
 def read_packet(socket: socket.SocketType) -> Packet:
     size_b = recv_exactly(socket, 8)
     size = int.from_bytes(size_b, "little", signed=False)
