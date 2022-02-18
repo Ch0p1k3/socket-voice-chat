@@ -32,3 +32,14 @@ RUN_ARGS="--host 0.0.0.0 --port 10080 --username name" make client
 docker run -p 10080:10080 --rm -it ch0p1k/sockets --host 0.0.0.0 --port 10080
 ```
 To run in backend process - add `-d` flag
+
+### Client screenshots
+![client_1](images/client_1.png)
+![client_2](images/client_2.png)
+![client_3](images/client_3.png)
+![client_4](images/client_4.png)
+![client_5](images/client_5.png)
+![client_6](images/client_6.png)
+
+### Server screenshot
+![server](images/server.png)

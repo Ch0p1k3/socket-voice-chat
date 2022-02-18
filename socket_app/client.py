@@ -144,7 +144,8 @@ class Client:
                 users = TerminalMenu(
                     lst,
                     title=f"Room key: {self._room_num}. "
-                    "Click enter to cancel."
+                    "Click enter to cancel.",
+                    show_search_hint=True
                 )
                 _ = users.show()
             elif answer == 2:
@@ -152,8 +153,7 @@ class Client:
                     users = TerminalMenu(
                         [self._cur_talk, "[c] Cancel"],
                         title=f"Room key: {self._room_num}. "
-                        "Click enter on name to refresh.",
-                        show_search_hint=True
+                        "Click enter on name to refresh."
                     )
                     cl = users.show()
                     if cl == 1:
