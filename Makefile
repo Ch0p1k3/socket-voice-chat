@@ -9,7 +9,7 @@ apt_get:
 	apt-get install -y python3.9-dev python-dev libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0 ffmpeg
 
 requirements:
-	python3.9 -m pip instasll .
+	python3.9 -m pip install .
 
 install: apt_get
 	python3.9 -m pip wheel --wheel-dir ./dist .
